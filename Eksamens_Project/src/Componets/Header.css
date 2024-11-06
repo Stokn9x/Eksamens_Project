@@ -6,6 +6,8 @@
 	background-color: #AF0000;
 	width: 100%;
 	box-sizing: border-box;
+	height: 150px;
+	padding-top: 45px;
 }
 .Header-Logo img {
 	width: 350px;

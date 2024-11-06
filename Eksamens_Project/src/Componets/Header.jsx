@@ -1,7 +1,10 @@
 import './Header.css';
 import ManishHusetLogo from '../assets/NewFolder/ManishHuset.png';
+import ProfileMenu from './ProfileMenu';
 
 function Header() {
+    const isLoggedIn = false;
+
     return (
         <div className="Header">
             <div className="Header-Logo">
@@ -11,7 +14,7 @@ function Header() {
                 <h1>Restaurant</h1>
             </div>
             <div className="Header-right">
-
+                <ProfileMenu isLoggedIn={isLoggedIn} />
             </div>
         </div>
     );
