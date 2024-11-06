@@ -3,7 +3,7 @@
 	justify-content: space-between;
 	align-items: center;
 	padding: 10px 20px;
-	background-color: #AF0000;
+	background: linear-gradient(90deg, #AF0000, #B48050);
 	width: 100%;
 	box-sizing: border-box;
 	height: 150px;
