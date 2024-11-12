@@ -5,24 +5,25 @@ nav {
 	box-sizing: border-box;
 }
 
-	nav ul {
-		list-style-type: none;
-		margin: 0;
-		padding: 0;
-	}
+nav ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+}
 
-		nav ul li {
-			float: left;
-		}
+nav ul li {
+	
+}
 
-			nav ul li a {
-				display: block;
-				color: #2D3648;
-				text-align: center;
-				padding: 14px 16px;
-				text-decoration: none;
-			}
+nav ul li a {
+	display: block;
+	color: #2D3648;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+}
 
-				nav ul li a:hover {
-					background-color: #111;
-				}
+nav ul li a:hover {
+	background-color: #111;
+}
