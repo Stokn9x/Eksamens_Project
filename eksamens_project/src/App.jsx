@@ -30,7 +30,7 @@ function App() {
         <div className="App">
             {showHeader && <Header />}
             {showNavbar && <Navbar />}
-            <div className="content">
+            <div className="content" style={{ marginBottom: showFooter ? '100px' : '0' }}>
                 <Routes>
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/" element={<FrontPage />} />
