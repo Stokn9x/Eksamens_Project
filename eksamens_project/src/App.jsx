@@ -6,6 +6,7 @@ import Navbar from './Componets/Navbar';
 import ContactPage from './Pages/ContactPage';
 import LoginPage from './Pages/LoginPage';
 import Header from './Componets/Header';
+import Footer from './Componets/Footer';
 
 const routesToShowNavbar = [
     "/",
@@ -23,6 +24,7 @@ function App() {
     const location = useLocation();
     const showNavbar = shouldShowNavbar(location.pathname);
     const showHeader = shouldShowNavbar(location.pathname);
+    const showFooter = shouldShowNavbar(location.pathname);
 
     return (
         <div className="App">
@@ -37,6 +39,7 @@ function App() {
                     <Route path="/contact" element={<ContactPage />} />
                 </Routes>
             </div>
+            {showFooter && <Footer /> }
         </div>
     );
 }
