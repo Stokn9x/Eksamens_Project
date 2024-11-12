@@ -2,13 +2,11 @@
 	background-color: #000000;
 	padding: 20px;
 	text-align: center;
-	position: fixed;
-	left: 0;
-	bottom: 0;
 	width: 100%;
 	display: flex;
 	justify-content: space-around;
 	align-items: flex-start;
+	position: relative; /* Change from fixed to relative */
 }
 
 .ContactInfo, .OpningTimes, .SocialMedia {
