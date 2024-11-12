@@ -1,5 +1,5 @@
 import './Header.css';
-import ManishHusetLogo from '../assets/NewFolder/ManishHuset.png';
+import ManishHusetLogo from '../assets/Logo/ManishHuset.png';
 import ProfileMenu from './ProfileMenu';
 
 function Header() {
