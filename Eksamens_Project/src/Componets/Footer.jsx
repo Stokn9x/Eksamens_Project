@@ -5,9 +5,9 @@ function Footer() {
       <div className="Footer">
           <div className="ContactInfo">
           <h3>Manish Huset</h3>
-			  <p>Adress: Manish Huset, Manishvej 1, 1234 Manishby</p>
-			  <p>Telefon: 12 34 56 78</p>
-			  <p>Email:</p>
+              <p>Hundige Strandvej 55, 2670 Greve</p>
+			  <p>+45 12 34 56 78</p>
+              <p>Manish@mail.dk</p>
           </div>
           <div className="OpningTimes">
               <h3>Åbningstider</h3>
