@@ -1,15 +1,33 @@
 .Header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 10px 20px;
-	background: linear-gradient(90deg, #AF0000, #B48050);
-	width: 100%;
-	box-sizing: border-box;
-	height: 150px;
-	padding-top: 45px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    padding-left: 240px;
+    padding-right: 240px;
+    background: linear-gradient(90deg, #ffffff, #ffffff);
+    width: 100%;
+    box-sizing: border-box;
+    height: 125px;
+    padding-top: 45px;
+    border-bottom: 1px solid #808080;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
+
 .Header-Logo img {
-	width: 350px;
-	height: 250px;
+    margin-left: -35px;
+    width: 300px;
+    height: 175px;
+}
+
+.Header-Navbar {
+    margin-left: 20px;
+    margin-top: 30px;
+    width: 100%; /* Add this */
+}
+
+.Header-right {
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
 }

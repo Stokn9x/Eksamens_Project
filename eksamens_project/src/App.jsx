@@ -22,14 +22,13 @@ const shouldShowNavbar = (pathname) => {
 
 function App() {
     const location = useLocation();
-    const showNavbar = shouldShowNavbar(location.pathname);
     const showHeader = shouldShowNavbar(location.pathname);
     const showFooter = shouldShowNavbar(location.pathname);
 
     return (
         <div className="App">
             {showHeader && <Header />}
-            {showNavbar && <Navbar />}
+            
             <div className="content" style={{ marginBottom: showFooter ? '100px' : '0' }}>
                 <Routes>
                     <Route path="/login" element={<LoginPage />} />
