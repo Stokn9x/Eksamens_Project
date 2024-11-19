@@ -7,7 +7,7 @@ function MenuPage() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetch('https://localhost:7265/api/FoodMenu/GetMenuData') // Brug den fulde URL
+        fetch('https://localhost:7265/api/FoodMenu/GetMenuData') 
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -15,7 +15,7 @@ function MenuPage() {
                 return response.json();
             })
             .then(data => {
-                console.log('Fetched data:', data); // Log fetched data
+                console.log('Fetched data:', data);
                 data.forEach(category => {
                     category.items.forEach(item => {
                         item.image = ManishImage;
@@ -24,7 +24,7 @@ function MenuPage() {
                 setMenuData(data);
             })
             .catch(error => {
-                console.error('Fetch error:', error); // Log fetch error
+                console.error('Fetch error:', error);
                 setError(error.toString());
             });
     }, []);
@@ -57,6 +57,7 @@ function MenuPage() {
                                     <div className="item-details">
                                         <h3>{item.name}</h3>
                                         <p>{item.description}</p>
+                                        <p className="ingredients">Ingredients: {item.ingredients.join(', ')}</p>
                                         <p className="price">{item.price}</p>
                                     </div>
                                     <button className="add-to-cart">Add to Cart</button>

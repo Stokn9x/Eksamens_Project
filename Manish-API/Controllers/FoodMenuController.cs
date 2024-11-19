@@ -68,7 +68,8 @@ namespace Manish_API.Controllers
 						name = p.Name,
 						description = p.Description,
 						price = $"${p.Price}",
-						image = p.ProductImage
+						image = p.ProductImage,
+						ingredients = p.ingredients
 					}).ToList()
 				})
 				.ToList();
