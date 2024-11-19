@@ -1,31 +1,38 @@
+import React, { useEffect, useState } from 'react';
 import './MenuPage.css';
 import ManishImage from '../assets/FoodItems/Manish.png';
 
-const menuData = [
-    {
-        category: 'Starters',
-        items: [
-            { name: 'Bruschetta', description: 'Grilled bread with tomatoes', price: '$5', image: ManishImage },
-            { name: 'Garlic Bread', description: 'Bread with garlic and butter', price: '$4', image: ManishImage },
-        ],
-    },
-    {
-        category: 'Main Courses',
-        items: [
-            { name: 'Margherita Pizza', description: 'Classic pizza with tomatoes and cheese', price: '$10', image: ManishImage },
-            { name: 'Spaghetti Carbonara', description: 'Pasta with eggs, cheese, and bacon', price: '$12', image: ManishImage },
-        ],
-    },
-    {
-        category: 'Desserts',
-        items: [
-            { name: 'Tiramisu', description: 'Coffee-flavored Italian dessert', price: '$6', image: ManishImage },
-            { name: 'Panna Cotta', description: 'Creamy dessert with berry sauce', price: '$5', image: ManishImage },
-        ],
-    },
-];
-
 function MenuPage() {
+    const [menuData, setMenuData] = useState([]);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        fetch('https://localhost:7265/api/FoodMenu/GetMenuData') // Brug den fulde URL
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Fetched data:', data); // Log fetched data
+                data.forEach(category => {
+                    category.items.forEach(item => {
+                        item.image = ManishImage;
+                    });
+                });
+                setMenuData(data);
+            })
+            .catch(error => {
+                console.error('Fetch error:', error); // Log fetch error
+                setError(error.toString());
+            });
+    }, []);
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
+
     return (
         <div className="menu-page-container">
             <div className="category-list">
@@ -64,4 +71,3 @@ function MenuPage() {
 }
 
 export default MenuPage;
-
