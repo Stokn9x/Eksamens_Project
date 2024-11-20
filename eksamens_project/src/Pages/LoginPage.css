@@ -32,6 +32,11 @@
 	border-radius: 3px;
 }
 
+.login-page-error {
+	color: red;
+	margin-top: 10px;
+}
+
 .login-page-button {
 	width: 100%;
 	padding: 10px;

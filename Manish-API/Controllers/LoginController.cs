@@ -10,6 +10,11 @@ namespace Manish_API.Controllers
 	[Route("api/[controller]")]
 	public class LoginController : ControllerBase
 	{
+		private static List<Admin> admins = new List<Admin>
+		{
+			new Admin("admin", "admin")
+		};
+
 		private static List<Customer> customers = new List<Customer>
 		{
 			new Customer("user1", "password1", "John Doe", "john@example.com", "1234567890", "123 Main St", 30),
@@ -18,9 +23,10 @@ namespace Manish_API.Controllers
 
 		[HttpPost]
 		[Route("Login")]
-		public IActionResult Login([FromBody] Admin admin) //Skal nok laves om til at 
+		public IActionResult Login([FromBody] Admin admin)
 		{
-			if (admin.Username == "admin" && admin.Password == "admin")
+			var adminUser = admins.FirstOrDefault(a => a.Username == admin.Username && a.Password == admin.Password);
+			if (adminUser != null)
 			{
 				return Ok("Admin login successful");
 			}
