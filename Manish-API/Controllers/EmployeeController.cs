@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
 using Manish_API.Model;
+using System.Collections.Generic;
+using System.Linq;
+using System;
+using Manish_API.Enum;
 
 namespace Manish_API.Controllers
 {
@@ -8,67 +11,98 @@ namespace Manish_API.Controllers
 	[Route("api/[controller]")]
 	public class EmployeeController : ControllerBase
 	{
+		private static List<Employee> employees = new List<Employee>();
+
 		[HttpPost]
 		[Route("AddEmployee")]
-		public IActionResult AddEmployee([FromBody] Employee employee)
+		public IActionResult AddEmployee(string name, int age, string phoneNumber, string email, string address, double workingHours, string workState, string position, string availableWorkDays, string shifts)
 		{
+			var availableWorkDaysList = availableWorkDays.Split(',').Select(d => d.Trim()).ToList();
+			var shiftsList = shifts.Split(';').Select(s => s.Trim()).ToList();
+
+			if (!System.Enum.TryParse(position, out Position positionType))
+			{
+				return BadRequest("Invalid position type");
+			}
+
+			if (!System.Enum.TryParse(workState, out WorkState workStateType))
+			{
+				return BadRequest("Invalid work state type");
+			}
+
+			var availableWorkDaysEnumList = new List<WorkDays>();
+			foreach (var day in availableWorkDaysList)
+			{
+				if (!System.Enum.TryParse(day, out WorkDays workDay))
+				{
+					return BadRequest("Invalid work days type");
+				}
+				availableWorkDaysEnumList.Add(workDay);
+			}
+
+			var employee = new Employee(name, age, phoneNumber, email, address, workingHours, workStateType, positionType, availableWorkDaysEnumList);
+
+			foreach (var shift in shiftsList)
+			{
+				var shiftDetails = shift.Split(',');
+				if (shiftDetails.Length != 3 ||
+					!DateTime.TryParse(shiftDetails[0], out DateTime shiftDate) ||
+					!DateTime.TryParse(shiftDetails[1], out DateTime startTime) ||
+					!DateTime.TryParse(shiftDetails[2], out DateTime endTime))
+				{
+					return BadRequest("Invalid shift format");
+				}
+
+				employee.AddShift(new Shift(shiftDate, startTime, endTime));
+			}
+
+			employees.Add(employee);
 			return Ok("Employee added successfully");
 		}
 
 		[HttpGet]
-		[Route("GetEmployee")]
-		public IActionResult GetEmployee()
+		[Route("GetEmployees")]
+		public IActionResult GetEmployees()
 		{
-			return Ok("Employee details");
+			return Ok(employees);
 		}
 
 		[HttpPut]
 		[Route("UpdateEmployee")]
-		public IActionResult UpdateEmployee([FromBody] Employee employee)
+		public IActionResult UpdateEmployee([FromBody] Employee updatedEmployee)
 		{
+			var employee = employees.FirstOrDefault(e => e.id == updatedEmployee.id);
+			if (employee == null)
+			{
+				return NotFound("Employee not found");
+			}
+
+			employee.Name = updatedEmployee.Name;
+			employee.Age = updatedEmployee.Age;
+			employee.PhoneNumber = updatedEmployee.PhoneNumber;
+			employee.Email = updatedEmployee.Email;
+			employee.Address = updatedEmployee.Address;
+			employee.WorkingHours = updatedEmployee.WorkingHours;
+			employee.WorkState = updatedEmployee.WorkState;
+			employee.Position = updatedEmployee.Position;
+			employee.AvailableWorkDays = updatedEmployee.AvailableWorkDays;
+			employee.Shifts = updatedEmployee.Shifts;
+
 			return Ok("Employee updated successfully");
 		}
 
 		[HttpDelete]
-		[Route("DeleteEmployee")]
-		public IActionResult DeleteEmployee([FromBody] Employee employee)
+		[Route("DeleteEmployee/{id}")]
+		public IActionResult DeleteEmployee(Guid id)
 		{
+			var employee = employees.FirstOrDefault(e => e.id == id);
+			if (employee == null)
+			{
+				return NotFound("Employee not found");
+			}
+
+			employees.Remove(employee);
 			return Ok("Employee deleted successfully");
-		}
-
-		[HttpGet]
-		[Route("GetEmployeeShift")]
-		public IActionResult GetEmployeeShift()
-		{
-			return Ok("Employee shift details");
-		}
-
-		[HttpPost]
-		[Route("AddEmployeeShift")]
-		public IActionResult AddEmployeeShift([FromBody] Shift shift)
-		{
-			return Ok("Employee shift added successfully");
-		}
-
-		[HttpPut]
-		[Route("UpdateEmployeeShift")]
-		public IActionResult UpdateEmployeeShift([FromBody] Shift shift)
-		{
-			return Ok("Employee shift updated successfully");
-		}
-
-		[HttpDelete]
-		[Route("DeleteEmployeeShift")]
-		public IActionResult DeleteEmployeeShift([FromBody] Shift shift)
-		{
-			return Ok("Employee shift deleted successfully");
-		}
-
-		[HttpGet]
-		[Route("GetEmployeeAvailableWorkdays")]
-		public IActionResult GetEmployeeAvailableWorkdays()
-		{
-			return Ok("Employee available workdays");
 		}
 	}
 }
