@@ -12,14 +12,13 @@ namespace Manish_API.Controllers
 	public class EmployeeController : ControllerBase
 	{
 		private static List<Employee> employees = new List<Employee>();
-		private static List<WorkDays> AvailavbleWorkDays = new List<WorkDays>();
 
 		[HttpPost]
 		[Route("AddEmployee")]
-		public IActionResult AddEmployee(string name, int age, string phoneNumber, string email, string address, int workingHours, string workState, string position, string availableWorkDays, string shifts)
+		public IActionResult AddEmployee(string name, int age, string phoneNumber, string email, string address, double workingHours, string workState, string position, string availableWorkDays, string shifts)
 		{
 			var availableWorkDaysList = availableWorkDays.Split(',').Select(d => d.Trim()).ToList();
-			var shiftsList = shifts.Split(',').Select(s => s.Trim()).ToList();
+			var shiftsList = shifts.Split(';').Select(s => s.Trim()).ToList();
 
 			if (!System.Enum.TryParse(position, out Position positionType))
 			{
@@ -31,29 +30,31 @@ namespace Manish_API.Controllers
 				return BadRequest("Invalid work state type");
 			}
 
-			for (int i = 0; i < availableWorkDaysList.Count; i++)
+			var availableWorkDaysEnumList = new List<WorkDays>();
+			foreach (var day in availableWorkDaysList)
 			{
-				if (!System.Enum.TryParse(availableWorkDaysList[i], out WorkDays workDay))
+				if (!System.Enum.TryParse(day, out WorkDays workDay))
 				{
 					return BadRequest("Invalid work days type");
 				}
-				AvailavbleWorkDays.Add(workDay);
+				availableWorkDaysEnumList.Add(workDay);
 			}
 
-				var employee = new Employee
+			var employee = new Employee(name, age, phoneNumber, email, address, workingHours, workStateType, positionType, availableWorkDaysEnumList);
+
+			foreach (var shift in shiftsList)
 			{
-				id = Guid.NewGuid(),
-				Name = name,
-				Age = age,
-				PhoneNumber = phoneNumber,
-				Email = email,
-				Address = address,
-				WorkingHours = workingHours,
-				WorkState = workStateType,
-				Position = positionType,
-				AvailableWorkDays = AvailavbleWorkDays,
-				Shifts = shiftsList
-			};
+				var shiftDetails = shift.Split(',');
+				if (shiftDetails.Length != 3 ||
+					!DateTime.TryParse(shiftDetails[0], out DateTime shiftDate) ||
+					!DateTime.TryParse(shiftDetails[1], out DateTime startTime) ||
+					!DateTime.TryParse(shiftDetails[2], out DateTime endTime))
+				{
+					return BadRequest("Invalid shift format");
+				}
+
+				employee.AddShift(new Shift(shiftDate, startTime, endTime));
+			}
 
 			employees.Add(employee);
 			return Ok("Employee added successfully");
@@ -105,4 +106,3 @@ namespace Manish_API.Controllers
 		}
 	}
 }
-

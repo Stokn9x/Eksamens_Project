@@ -12,7 +12,7 @@ function AdminEmployeePage() {
         workingHours: '',
         workState: '',
         position: '',
-        availableWorkDays: '',
+        availableWorkDays: [],
         shifts: []
     });
     const [errors, setErrors] = useState({});
@@ -30,6 +30,16 @@ function AdminEmployeePage() {
         setEmployee({ ...employee, [name]: value });
     };
 
+    const handleCheckboxChange = (e) => {
+        const { name, checked } = e.target;
+        setEmployee((prevState) => {
+            const availableWorkDays = checked
+                ? [...prevState.availableWorkDays, name]
+                : prevState.availableWorkDays.filter(day => day !== name);
+            return { ...prevState, availableWorkDays };
+        });
+    };
+
     const validateInputs = () => {
         const newErrors = {};
         if (!employee.name) newErrors.name = 'Name is required';
@@ -40,7 +50,7 @@ function AdminEmployeePage() {
         if (!employee.workingHours || isNaN(employee.workingHours) || employee.workingHours <= 0) newErrors.workingHours = 'Valid working hours are required';
         if (!employee.workState) newErrors.workState = 'Work state is required';
         if (!employee.position) newErrors.position = 'Position is required';
-        if (!employee.availableWorkDays) newErrors.availableWorkDays = 'Available work days are required';
+        if (employee.availableWorkDays.length === 0) newErrors.availableWorkDays = 'Available work days are required';
         return newErrors;
     };
 
@@ -63,15 +73,21 @@ function AdminEmployeePage() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(employee)
+            body: JSON.stringify({
+                ...employee,
+                age: parseInt(employee.age),
+                workingHours: parseFloat(employee.workingHours),
+                availableWorkDays: employee.availableWorkDays,
+                shifts: []
+            })
         })
-            .then(response => response.text())
+            .then(response => response.json())
             .then(data => {
                 console.log('Employee added/updated:', data);
                 if (editingEmployee) {
                     setEmployees(employees.map(e => (e.id === employee.id ? employee : e)));
                 } else {
-                    setEmployees([...employees, employee]);
+                    setEmployees([...employees, data]);
                 }
                 setEmployee({
                     name: '',
@@ -82,7 +98,7 @@ function AdminEmployeePage() {
                     workingHours: '',
                     workState: '',
                     position: '',
-                    availableWorkDays: '',
+                    availableWorkDays: [],
                     shifts: []
                 });
                 setErrors({});
@@ -170,32 +186,43 @@ function AdminEmployeePage() {
                     required
                 />
                 {errors.workingHours && <span className="error">{errors.workingHours}</span>}
-                <input
-                    type="text"
+                <select
                     name="workState"
                     value={employee.workState}
                     onChange={handleInputChange}
-                    placeholder="Work State"
                     required
-                />
+                >
+                    <option value="">Select Work State</option>
+                    <option value="PartTime">Part Time</option>
+                    <option value="FullTime">Full Time</option>
+                </select>
                 {errors.workState && <span className="error">{errors.workState}</span>}
-                <input
-                    type="text"
+                <select
                     name="position"
                     value={employee.position}
                     onChange={handleInputChange}
-                    placeholder="Position"
                     required
-                />
+                >
+                    <option value="">Select Position</option>
+                    <option value="Cook">Cook</option>
+                    <option value="Waiter">Waiter</option>
+                    <option value="Cashier">Cashier</option>
+                </select>
                 {errors.position && <span className="error">{errors.position}</span>}
-                <input
-                    type="text"
-                    name="availableWorkDays"
-                    value={employee.availableWorkDays}
-                    onChange={handleInputChange}
-                    placeholder="Available Work Days"
-                    required
-                />
+                <div>
+                    <label>Available Work Days:</label>
+                    {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map(day => (
+                        <div key={day}>
+                            <input
+                                type="checkbox"
+                                name={day}
+                                checked={employee.availableWorkDays.includes(day)}
+                                onChange={handleCheckboxChange}
+                            />
+                            <label>{day}</label>
+                        </div>
+                    ))}
+                </div>
                 {errors.availableWorkDays && <span className="error">{errors.availableWorkDays}</span>}
                 <button type="submit">{editingEmployee ? 'Update Employee' : 'Add Employee'}</button>
             </form>
