@@ -1,16 +1,23 @@
-﻿namespace Manish_API.Model
+﻿using System;
+using System.Text.Json.Serialization;
+using Manish_API.Enum;
+
+namespace Manish_API.Model
 {
 	public class Shift
 	{
 		public Guid id { get; set; }
-		public DateTime ShiftDate { get; set; }
+
+		[JsonConverter(typeof(JsonStringEnumConverter))]
+		public WorkDays Day { get; set; }
+
 		public DateTime StartTime { get; set; }
 		public DateTime EndTime { get; set; }
 
-		public Shift(DateTime shiftDate, DateTime startTime, DateTime endTime)
+		public Shift(WorkDays day, DateTime startTime, DateTime endTime)
 		{
 			id = Guid.NewGuid();
-			ShiftDate = shiftDate;
+			Day = day;
 			StartTime = startTime;
 			EndTime = endTime;
 		}

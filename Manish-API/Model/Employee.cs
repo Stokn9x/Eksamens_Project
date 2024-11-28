@@ -3,7 +3,7 @@ namespace Manish_API.Model
 {
 	public class Employee
 	{
-		public Guid id { get; set; }
+		public Guid Id { get; set; }
 		public string Name { get; set; }
 		public int Age { get; set; }
 		public string PhoneNumber { get; set; }
@@ -17,7 +17,7 @@ namespace Manish_API.Model
 
 		public Employee(string name, int age, string phoneNumber, string email, string address, double workingHours, WorkState workState, Position position, List<WorkDays> availableWorkDays)
 		{
-			id = Guid.NewGuid();
+			Id = Guid.NewGuid();
 			Name = name;
 			Age = age;
 			PhoneNumber = phoneNumber;

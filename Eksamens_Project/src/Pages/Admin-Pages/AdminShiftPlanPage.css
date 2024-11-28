@@ -1,2 +1,48 @@
-body {
+.admin-shift-plan {
+	padding: 20px;
 }
+
+	.admin-shift-plan h1 {
+		font-size: 24px;
+		margin-bottom: 20px;
+	}
+
+	.admin-shift-plan form {
+		margin-bottom: 20px;
+	}
+
+	.admin-shift-plan select,
+	.admin-shift-plan input {
+		display: block;
+		margin-bottom: 10px;
+		padding: 8px;
+		width: 100%;
+		max-width: 300px;
+	}
+
+	.admin-shift-plan button {
+		padding: 10px 20px;
+		background-color: #007bff;
+		color: white;
+		border: none;
+		cursor: pointer;
+	}
+
+		.admin-shift-plan button:hover {
+			background-color: #0056b3;
+		}
+
+	.admin-shift-plan .error {
+		color: red;
+		font-size: 12px;
+	}
+
+	.admin-shift-plan ul {
+		list-style-type: none;
+		padding: 0;
+	}
+
+	.admin-shift-plan li {
+		padding: 10px;
+		border-bottom: 1px solid #ccc;
+	}
