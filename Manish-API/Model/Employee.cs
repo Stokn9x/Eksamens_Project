@@ -15,6 +15,10 @@ namespace Manish_API.Model
 		public List<WorkDays> AvailableWorkDays { get; set; }
 		public List<Shift> Shifts { get; set; }
 
+		public Employee()
+		{
+		}
+
 		public Employee(string name, int age, string phoneNumber, string email, string address, double workingHours, WorkState workState, Position position, List<WorkDays> availableWorkDays)
 		{
 			Id = Guid.NewGuid();

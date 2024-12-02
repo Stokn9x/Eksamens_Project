@@ -14,6 +14,10 @@ namespace Manish_API.Model
 		public DateTime StartTime { get; set; }
 		public DateTime EndTime { get; set; }
 
+		public Shift()
+		{
+		}
+
 		public Shift(WorkDays day, DateTime startTime, DateTime endTime)
 		{
 			id = Guid.NewGuid();
