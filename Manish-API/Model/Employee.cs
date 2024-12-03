@@ -1,4 +1,7 @@
 ﻿using Manish_API.Enum;
+using System;
+using System.Collections.Generic;
+
 namespace Manish_API.Model
 {
 	public class Employee
@@ -48,6 +51,5 @@ namespace Manish_API.Model
 		{
 			Shifts[Shifts.FindIndex(s => s.id == shift.id)] = shift;
 		}
-
 	}
 }

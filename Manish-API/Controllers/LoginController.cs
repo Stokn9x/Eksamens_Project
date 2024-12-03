@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
+using Manish_API.Database;
 using Manish_API.Model;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Manish_API.Controllers
@@ -10,28 +9,24 @@ namespace Manish_API.Controllers
 	[Route("api/[controller]")]
 	public class LoginController : ControllerBase
 	{
-		private static List<Admin> admins = new List<Admin>
-		{
-			new Admin("admin", "admin")
-		};
+		private readonly AppDbContext _context;
 
-		private static List<Customer> customers = new List<Customer>
+		public LoginController(AppDbContext context)
 		{
-			new Customer("user1", "password1", "John Doe", "john@example.com", "1234567890", "123 Main St", 30),
-			new Customer("user2", "password2", "Jane Smith", "jane@example.com", "0987654321", "456 Elm St", 25)
-		};
+			_context = context;
+		}
 
 		[HttpPost]
 		[Route("Login")]
 		public IActionResult Login([FromBody] Admin admin)
 		{
-			var adminUser = admins.FirstOrDefault(a => a.Username == admin.Username && a.Password == admin.Password);
+			var adminUser = _context.Admins.FirstOrDefault(a => a.Username == admin.Username && a.Password == admin.Password);
 			if (adminUser != null)
 			{
 				return Ok("Admin login successful");
 			}
 
-			var customer = customers.FirstOrDefault(c => c.Username == admin.Username && c.Password == admin.Password);
+			var customer = _context.Customers.FirstOrDefault(c => c.Username == admin.Username && c.Password == admin.Password);
 			if (customer != null)
 			{
 				return Ok("Customer login successful");

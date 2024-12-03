@@ -9,7 +9,7 @@ namespace Manish_API.Database
 		{
 		}
 
-		public	DbSet<Employee> Employees { get; set; }
+		public DbSet<Employee> Employees { get; set; }
 		public DbSet<Shift> Shifts { get; set; }
 		public DbSet<Product> Products { get; set; }
 		public DbSet<Order> Orders { get; set; }
@@ -29,6 +29,20 @@ namespace Manish_API.Database
 			});
 
 			modelBuilder.Entity<FoodMenu>().HasNoKey();
+		}
+
+		public void Seed()
+		{
+			if (!Admins.Any(a => a.Username == "admin"))
+			{
+				Admins.Add(new Admin
+				{
+					Id = Guid.NewGuid(),
+					Username = "admin",
+					Password = "admin"
+				});
+				SaveChanges();
+			}
 		}
 	}
 }

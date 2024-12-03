@@ -2,7 +2,7 @@
 {
 	public class Admin
 	{
-		public Guid id { get; set; }
+		public Guid Id { get; set; }
 		public string Username { get; set; }
 		public string Password { get; set; }
 
@@ -12,7 +12,7 @@
 
 		public Admin(string username, string password)
 		{
-			id = Guid.NewGuid();
+			Id = Guid.NewGuid();
 			Username = username;
 			Password = password;
 		}
