@@ -46,3 +46,16 @@ ul {
 		padding: 10px;
 		border-bottom: 1px solid #ccc;
 	}
+
+.product-lists {
+	display: flex;
+	justify-content: space-between;
+}
+
+.product-list {
+	width: 48%;
+}
+
+	.product-list h3 {
+		margin-top: 0;
+	}

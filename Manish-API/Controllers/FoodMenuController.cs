@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Manish_API.Model;
 using Manish_API.Enum;
+using Manish_API.Database;
 using System.Collections.Generic;
 using System.Linq;
 using System;
-
 
 namespace Manish_API.Controllers
 {
@@ -12,15 +12,12 @@ namespace Manish_API.Controllers
 	[Route("api/[controller]")]
 	public class FoodMenuController : ControllerBase
 	{
-		private static List<Product> products = new List<Product>
+		private readonly AppDbContext _context;
+
+		public FoodMenuController(AppDbContext context)
 		{
-			new Product("Bruschetta", "ManishImage", "Grilled bread with tomatoes", new List<string> { "Bread", "Tomatoes", "Garlic" }, 5.0, 10, FoodCategory.Starters),
-			new Product("Garlic Bread", "ManishImage", "Bread with garlic and butter", new List<string> { "Bread", "Garlic", "Butter" }, 4.0, 15, FoodCategory.Starters),
-			new Product("Margherita Pizza", "ManishImage", "Classic pizza with tomatoes and cheese", new List<string> { "Dough", "Tomatoes", "Cheese" }, 10.0, 20, FoodCategory.MainCourse),
-			new Product("Spaghetti Carbonara", "ManishImage", "Pasta with eggs, cheese, and bacon", new List<string> { "Pasta", "Eggs", "Cheese", "Bacon" }, 12.0, 25, FoodCategory.MainCourse),
-			new Product("Tiramisu", "ManishImage", "Coffee-flavored Italian dessert", new List<string> { "Coffee", "Mascarpone", "Cocoa" }, 6.0, 30, FoodCategory.Deserts),
-			new Product("Panna Cotta", "ManishImage", "Creamy dessert with berry sauce", new List<string> { "Cream", "Sugar", "Berries" }, 5.0, 35, FoodCategory.Deserts)
-		};
+			_context = context;
+		}
 
 		[HttpPost]
 		[Route("AddFoodItem")]
@@ -32,8 +29,9 @@ namespace Manish_API.Controllers
 				return BadRequest("Invalid food category");
 			}
 
-			var product = new Product(name, productImage, description, ingredientList, price, productSales, category);
-			products.Add(product);
+			var product = new Product(name, productImage, description, ingredientList, price, productSales, category, false);
+			_context.Products.Add(product);
+			_context.SaveChanges();
 			return Ok("Food item added successfully");
 		}
 
@@ -41,14 +39,27 @@ namespace Manish_API.Controllers
 		[Route("GetFoodItems")]
 		public IActionResult GetFoodItems()
 		{
-			return Ok(products);
+			var foodItems = _context.Products
+				.Select(p => new
+				{
+					id = p.id,
+					name = p.Name,
+					description = p.Description,
+					price = p.Price,
+					ingredients = p.ingredients,
+					foodCategory = p.FoodCategory,
+					isActive = p.IsActive
+				})
+				.ToList();
+
+			return new JsonResult(foodItems);
 		}
 
 		[HttpGet]
 		[Route("GetMenuData")]
 		public IActionResult GetMenuData()
 		{
-			var menuData = products
+			var menuData = _context.Products
 				.GroupBy(p => p.FoodCategory)
 				.Select(g => new
 				{
@@ -59,7 +70,8 @@ namespace Manish_API.Controllers
 						description = p.Description,
 						price = $"${p.Price}",
 						image = p.ProductImage,
-						ingredients = p.ingredients
+						ingredients = p.ingredients,
+						isActive = p.IsActive
 					}).ToList()
 				})
 				.ToList();
@@ -69,9 +81,9 @@ namespace Manish_API.Controllers
 
 		[HttpPut]
 		[Route("UpdateFoodItem")]
-		public IActionResult UpdateFoodItem(Guid id, string name, string productImage, string description, string ingredients, double price, int productSales, string foodCategory)
+		public IActionResult UpdateFoodItem(Guid id, string name, string productImage, string description, string ingredients, double price, int productSales, string foodCategory, bool isActive)
 		{
-			var product = products.FirstOrDefault(p => p.id == id);
+			var product = _context.Products.FirstOrDefault(p => p.id == id);
 			if (product == null)
 			{
 				return NotFound("Food item not found");
@@ -90,7 +102,9 @@ namespace Manish_API.Controllers
 			product.Price = price;
 			product.ProductSales = productSales;
 			product.FoodCategory = category;
+			product.IsActive = isActive;
 
+			_context.SaveChanges();
 			return Ok("Food item updated successfully");
 		}
 
@@ -98,14 +112,49 @@ namespace Manish_API.Controllers
 		[Route("DeleteFoodItem/{id}")]
 		public IActionResult DeleteFoodItem(Guid id)
 		{
-			var product = products.FirstOrDefault(p => p.id == id);
+			var product = _context.Products.FirstOrDefault(p => p.id == id);
 			if (product == null)
 			{
 				return NotFound("Food item not found");
 			}
 
-			products.Remove(product);
+			_context.Products.Remove(product);
+			_context.SaveChanges();
 			return Ok("Food item deleted successfully");
 		}
+
+		[HttpPut]
+		[Route("ActivateFoodItem/{id}")]
+		public IActionResult ActivateFoodItem(int id)
+		{
+			var product = _context.Products.Find(id);
+			if (product == null)
+			{
+				return NotFound(new { message = "Product not found" });
+			}
+
+			product.IsActive = true;
+			_context.SaveChanges();
+
+			return Ok(new { message = "Product activated successfully", product });
+		}
+
+		[HttpPut]
+		[Route("DeactivateFoodItem/{id}")]
+		public IActionResult DeactivateFoodItem(int id)
+		{
+			var product = _context.Products.Find(id);
+			if (product == null)
+			{
+				return NotFound(new { message = "Product not found" });
+			}
+
+			product.IsActive = false;
+			_context.SaveChanges();
+
+			return Ok(new { message = "Product deactivated successfully", product });
+		}
+
+
 	}
 }

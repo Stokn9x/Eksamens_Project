@@ -12,12 +12,13 @@ namespace Manish_API.Model
 		public double Price { get; set; }
 		public int ProductSales { get; set; }
 		public FoodCategory FoodCategory { get; set; }
+		public bool IsActive { get; set; }
 
 		public Product()
 		{
 		}
 
-		public Product(string name, string productImage, string description, List<string> ingredients, double price, int productSales, FoodCategory foodCategory)
+		public Product(string name, string productImage, string description, List<string> ingredients, double price, int productSales, FoodCategory foodCategory, bool isActive = false)
 		{
 			id = Guid.NewGuid();
 			Name = name;
@@ -27,6 +28,7 @@ namespace Manish_API.Model
 			Price = price;
 			ProductSales = productSales;
 			FoodCategory = foodCategory;
+			IsActive = isActive;
 		}
 	}
 }

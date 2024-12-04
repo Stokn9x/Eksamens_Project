@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Manish_API.Model;
+using Manish_API.Enum;
 
 namespace Manish_API.Database
 {
@@ -41,8 +42,22 @@ namespace Manish_API.Database
 					Username = "admin",
 					Password = "admin"
 				});
-				SaveChanges();
 			}
+
+			if (!Products.Any())
+			{
+				Products.AddRange(new List<Product>
+				{
+					new Product("Bruschetta", "ManishImage", "Grilled bread with tomatoes", new List<string> { "Bread", "Tomatoes", "Garlic" }, 5.0, 10, FoodCategory.Starters) { IsActive = true },
+					new Product("Garlic Bread", "ManishImage", "Bread with garlic and butter", new List<string> { "Bread", "Garlic", "Butter" }, 4.0, 15, FoodCategory.Starters) { IsActive = true },
+					new Product("Margherita Pizza", "ManishImage", "Classic pizza with tomatoes and cheese", new List<string> { "Dough", "Tomatoes", "Cheese" }, 10.0, 20, FoodCategory.MainCourse) { IsActive = true },
+					new Product("Spaghetti Carbonara", "ManishImage", "Pasta with eggs, cheese, and bacon", new List<string> { "Pasta", "Eggs", "Cheese", "Bacon" }, 12.0, 25, FoodCategory.MainCourse) { IsActive = true },
+					new Product("Tiramisu", "ManishImage", "Coffee-flavored Italian dessert", new List<string> { "Coffee", "Mascarpone", "Cocoa" }, 6.0, 30, FoodCategory.Deserts) { IsActive = false },
+					new Product("Panna Cotta", "ManishImage", "Creamy dessert with berry sauce", new List<string> { "Cream", "Sugar", "Berries" }, 5.0, 35, FoodCategory.Deserts) { IsActive = false }
+				});
+			}
+
+			SaveChanges();
 		}
 	}
 }
