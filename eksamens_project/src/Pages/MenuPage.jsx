@@ -7,7 +7,7 @@ function MenuPage() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetch('https://localhost:7265/api/FoodMenu/GetMenuData') 
+        fetch('https://localhost:7265/api/FoodMenu/GetMenuData')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -16,12 +16,17 @@ function MenuPage() {
             })
             .then(data => {
                 console.log('Fetched data:', data);
-                data.forEach(category => {
+                // Filter out inactive products
+                const activeData = data.map(category => ({
+                    ...category,
+                    items: category.items.filter(item => item.isActive)
+                }));
+                activeData.forEach(category => {
                     category.items.forEach(item => {
                         item.image = ManishImage;
                     });
                 });
-                setMenuData(data);
+                setMenuData(activeData);
             })
             .catch(error => {
                 console.error('Fetch error:', error);

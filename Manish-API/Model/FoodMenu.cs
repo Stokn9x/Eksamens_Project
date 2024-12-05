@@ -2,10 +2,12 @@
 {
 	public class FoodMenu
 	{
+		public Guid Id { get; set; }
 		private List<Product> Products { get; set; }
 
 		public FoodMenu()
 		{
+			Id = Guid.NewGuid();
 			Products = new List<Product>();
 		}
 

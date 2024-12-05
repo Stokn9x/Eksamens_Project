@@ -11,6 +11,10 @@
         public string Address { get; set; }
         public int Age { get; set; }
 
+        public Customer()
+		{
+		}
+
         public Customer(string username, string password, string name, string email, string phoneNumber, string address, int age)
         {
             id = Guid.NewGuid();

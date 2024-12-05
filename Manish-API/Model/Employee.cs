@@ -1,9 +1,12 @@
 ﻿using Manish_API.Enum;
+using System;
+using System.Collections.Generic;
+
 namespace Manish_API.Model
 {
 	public class Employee
 	{
-		public Guid id { get; set; }
+		public Guid Id { get; set; }
 		public string Name { get; set; }
 		public int Age { get; set; }
 		public string PhoneNumber { get; set; }
@@ -15,9 +18,13 @@ namespace Manish_API.Model
 		public List<WorkDays> AvailableWorkDays { get; set; }
 		public List<Shift> Shifts { get; set; }
 
+		public Employee()
+		{
+		}
+
 		public Employee(string name, int age, string phoneNumber, string email, string address, double workingHours, WorkState workState, Position position, List<WorkDays> availableWorkDays)
 		{
-			id = Guid.NewGuid();
+			Id = Guid.NewGuid();
 			Name = name;
 			Age = age;
 			PhoneNumber = phoneNumber;
@@ -44,6 +51,5 @@ namespace Manish_API.Model
 		{
 			Shifts[Shifts.FindIndex(s => s.id == shift.id)] = shift;
 		}
-
 	}
 }

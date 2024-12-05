@@ -49,10 +49,11 @@ function AdminMenuPage() {
             name: productName,
             productImage: ManishImage,
             description: productDescription,
-            ingredients: productIngredients,
+            ingredients: productIngredients.split(',').map(ingredient => ingredient.trim()),
             price: parseFloat(productPrice),
             productSales: 0,
-            foodCategory: productCategory
+            foodCategory: productCategory,
+            isActive: true // Default to active when adding a new product
         };
 
         const queryParams = new URLSearchParams(newProduct).toString();
@@ -73,9 +74,9 @@ function AdminMenuPage() {
             .then(data => {
                 console.log('Product added/updated:', data);
                 if (editingProduct) {
-                    setProducts(products.map(p => (p.id === editingProduct.id ? newProduct : p)));
+                    setProducts(products.map(p => (p.id === editingProduct.id ? { ...newProduct, id: editingProduct.id } : p)));
                 } else {
-                    setProducts([...products, newProduct]);
+                    setProducts([...products, { ...newProduct, id: data.id }]);
                 }
                 setProductName('');
                 setProductDescription('');
@@ -112,6 +113,34 @@ function AdminMenuPage() {
             })
             .catch(error => {
                 console.error('Error deleting product:', error);
+            });
+    };
+
+    const handleActivateProduct = (id) => {
+        fetch(`https://localhost:7265/api/FoodMenu/ActivateFoodItem/${id}`, {
+            method: 'PUT'
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Product activated:', data);
+                setProducts(products.map(p => p.id === id ? { ...p, isActive: true } : p));
+            })
+            .catch(error => {
+                console.error('Error activating product:', error);
+            });
+    };
+
+    const handleDeactivateProduct = (id) => {
+        fetch(`https://localhost:7265/api/FoodMenu/DeactivateFoodItem/${id}`, {
+            method: 'PUT'
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Product deactivated:', data);
+                setProducts(products.map(p => p.id === id ? { ...p, isActive: false } : p));
+            })
+            .catch(error => {
+                console.error('Error deactivating product:', error);
             });
     };
 
@@ -185,18 +214,38 @@ function AdminMenuPage() {
                     <button type="submit">{editingProduct ? 'Update Product' : 'Add Product'}</button>
                 </form>
                 <h2>Product List</h2>
-                <ul>
-                    {products.map((product, index) => (
-                        <li key={index}>
-                            {product.name} - ${product.price}
-                            <button onClick={() => handleEditProduct(product)}>Edit</button>
-                            <button onClick={() => handleDeleteProduct(product.id)}>Delete</button>
-                        </li>
-                    ))}
-                </ul>
+                <div className="product-lists">
+                    <div className="product-list">
+                        <h3>Active Products</h3>
+                        <ul>
+                            {products.filter(product => product.isActive).map((product, index) => (
+                                <li key={index}>
+                                    {product.name} - ${product.price}
+                                    <button onClick={() => handleEditProduct(product)}>Edit</button>
+                                    <button onClick={() => handleDeleteProduct(product.id)}>Delete</button>
+                                    <button onClick={() => handleDeactivateProduct(product.id)}>Deactivate</button>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div className="product-list">
+                        <h3>Inactive Products</h3>
+                        <ul>
+                            {products.filter(product => !product.isActive).map((product, index) => (
+                                <li key={index}>
+                                    {product.name} - ${product.price}
+                                    <button onClick={() => handleEditProduct(product)}>Edit</button>
+                                    <button onClick={() => handleDeleteProduct(product.id)}>Delete</button>
+                                    <button onClick={() => handleActivateProduct(product.id)}>Activate</button>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     );
 }
 
 export default AdminMenuPage;
+
