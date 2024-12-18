@@ -8,6 +8,7 @@ import ContactPage from './Pages/ContactPage';
 import LoginPage from './Pages/LoginPage';
 import Header from './Componets/Header';
 import Footer from './Componets/Footer';
+import CustomerProfilePage from './Pages/CustomerProfilePage';
 import AdminMenuPage from './Pages/Admin-Pages/AdminMenuPage';
 import AdminFrontPage from './Pages/Admin-Pages/AdminFrontPage';
 import ProtectedRoute from './Componets/ProtectRoute';
@@ -15,6 +16,7 @@ import AdminEmployeePage from './Pages/Admin-Pages/AdminEmployeePage';
 import AdminMailSystem from './Pages/Admin-Pages/AdminMailSystem';
 import AdminShiftPlan from './Pages/Admin-Pages/AdminShiftPlanPage';
 import AdminNavbar from './Componets/AdminNavbar';
+import CreateProfilePage from './Pages/CreateProfilePage';
 import './index.css';
 
 const routesToShowNavbar = [
@@ -22,6 +24,8 @@ const routesToShowNavbar = [
     "/menu",
     "/about",
     "/contact",
+    "/Profile",
+    "/CreateProfile",
 ];
 
 const shouldShowNavbar = (pathname) => {
@@ -43,13 +47,17 @@ function App() {
         <div className="App">
             {showHeader && <Header />}
             {showAdminNavbar && <AdminNavbar />}
-            <div className="content" style={{ marginLeft: showAdminNavbar ? '220px' : '0', marginBottom: showFooter ? '0px' : '0' }}>
+            <div className="content" style={{ marginLeft: showAdminNavbar ? '220px' : '0' }}>
                 <Routes>
-                    <Route path="/login" element={<LoginPage setIsAuthenticated={setIsAuthenticated} />} />
+                    <Route path="*" element={<h1>404 - Not Found</h1>} />
+                    <Route path="/admin/*" element={<h1>404 - Not Found</h1>} />
                     <Route path="/" element={<FrontPage />} />
                     <Route path="/menu" element={<MenuPage />} />
                     <Route path="/about" element={<AboutPage />} />
                     <Route path="/contact" element={<ContactPage />} />
+                    <Route path="/Profile" element={<CustomerProfilePage />} />
+                    <Route path="/CreateProfile" element={<CreateProfilePage />} />
+                    <Route path="/login" element={<LoginPage setIsAuthenticated={setIsAuthenticated} />} />
                     <Route path="/admin" element={<ProtectedRoute isAuthenticated={isAuthenticated}><AdminFrontPage /></ProtectedRoute>} />
                     <Route path="/admin/menu" element={<ProtectedRoute isAuthenticated={isAuthenticated}><AdminMenuPage /></ProtectedRoute>} />
                     <Route path="/admin/employees" element={<ProtectedRoute isAuthenticated={isAuthenticated}><AdminEmployeePage /></ProtectedRoute>} />

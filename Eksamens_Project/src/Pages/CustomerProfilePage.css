@@ -1,0 +1,60 @@
+@charset "UTF-8";
+
+/* Resten af din CSS */
+.customer-profile-container {
+    max-width: 600px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+}
+
+.profile-info {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.row {
+    display: flex;
+    flex-direction: column;
+}
+
+    .row label {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+input {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+    input:disabled {
+        background-color: #f9f9f9;
+        cursor: not-allowed;
+    }
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 150px;
+    margin-top: 20px;
+}
+
+.ProfileButton {
+    padding: 10px 30px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    background-color: #B48050 !important;
+    color: #fff !important;
+    border-radius: 50px;
+}
+
+    .ProfileButton:hover {
+        background-color: #A56940 !important; /* M�rkere r�d farve ved hover */
+    }

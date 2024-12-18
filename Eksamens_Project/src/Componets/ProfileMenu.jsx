@@ -1,5 +1,6 @@
 import './ProfileMenu.css';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function ProfileMenu({ isLoggedIn }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -18,12 +19,18 @@ function ProfileMenu({ isLoggedIn }) {
                     {isLoggedIn ? (
                         <div>
                             <p>Welcome, User!</p>
-                            <button>Logout</button>
+                            <Link to="/logout" className="button-link">
+                                <button className="profile-menu-button">Logout</button>
+                            </Link>
                         </div>
                     ) : (
                         <div>
-                            <button>Login</button>
-                            <button>Opret bruger</button>
+                            <Link to="/login" className="button-link">
+                                <button className="profile-menu-button">Login</button>
+                            </Link>
+                            <Link to="/createprofile" className="button-link">
+                                <button className="profile-menu-button">Opret bruger</button>
+                            </Link>
                         </div>
                     )}
                 </div>
