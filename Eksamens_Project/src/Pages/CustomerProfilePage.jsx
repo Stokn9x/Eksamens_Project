@@ -1,29 +1,33 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useState, useEffect } from 'react';
 import './CustomerProfilePage.css';
 
 function CustomerProfilePage() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isEditable, setIsEditable] = useState(false);
     const [userInfo, setUserInfo] = useState({
-        firstName: '',
-        lastName: '',
+        username: '',
+        password: '',
+        name: '',
         email: '',
-        phone: '',
-        age: '',
-        address: ''
+        phoneNumber: '',
+        address: '',
+        age: ''
     });
     const [originalUserInfo, setOriginalUserInfo] = useState(null);
+    const [errors, setErrors] = useState({});
 
     useEffect(() => {
         const fetchUserInfo = async () => {
+            // Simuleret data, erstat med API-kald
             const loggedIn = true;
             const user = {
-                firstName: 'Hans',
-                lastName: 'Hansen',
+                username: 'Hans Hansen',
+                password: 'password123',
+                name: 'Hans Hansen',
                 email: 'hans@mail.com',
-                phone: '12345678',
-                age: '35',
-                address: 'Hovedgaden 123, DK'
+                phoneNumber: '12345678',
+                address: 'Hovedgaden 123, DK',
+                age: '35'
             };
 
             setIsLoggedIn(loggedIn);
@@ -53,6 +57,26 @@ function CustomerProfilePage() {
         setIsEditable(!isEditable);
     };
 
+    const validate = () => {
+        const newErrors = {};
+        if (!userInfo.username) newErrors.username = 'Brugernavn er påkrævet';
+        if (!userInfo.password) newErrors.password = 'Password er påkrævet';
+        if (!userInfo.name) newErrors.name = 'Fulde navn er påkrævet';
+        if (!userInfo.email) newErrors.email = 'Email er påkrævet';
+        if (!userInfo.phoneNumber) newErrors.phoneNumber = 'Telefon nr er påkrævet';
+        if (!userInfo.address) newErrors.address = 'Adresse er påkrævet';
+        if (!userInfo.age) newErrors.age = 'Alder er påkrævet';
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const handleSubmit = () => {
+        if (validate()) {
+            // Gem ændringerne (f.eks. send data til serveren)
+            setIsEditable(false);
+        }
+    };
+
     return (
         <div className="customer-profile-container">
             {isLoggedIn ? (
@@ -60,59 +84,70 @@ function CustomerProfilePage() {
                     <h1>Dine profil oplysninger</h1>
                     <div className="profile-info">
                         <div className="row">
-                            <label htmlFor="firstName">Fornavn:</label>
+                            <label htmlFor="username">Brugernavn:</label>
                             <input
                                 type="text"
-                                id="firstName"
-                                name="firstName"
-                                value={userInfo.firstName}
+                                id="username"
+                                name="username"
+                                value={userInfo.username}
                                 onChange={handleChange}
                                 disabled={!isEditable}
+                                required
                             />
+                            {errors.username && <span className="error">{errors.username}</span>}
                         </div>
                         <div className="row">
-                            <label htmlFor="lastName">Efternavn:</label>
+                            <label htmlFor="password">Password:</label>
                             <input
-                                type="text"
-                                id="lastName"
-                                name="lastName"
-                                value={userInfo.lastName}
+                                type="password"
+                                id="password"
+                                name="password"
+                                value={userInfo.password}
                                 onChange={handleChange}
                                 disabled={!isEditable}
+                                required
                             />
+                            {errors.password && <span className="error">{errors.password}</span>}
+                        </div>
+                        <div className="row">
+                            <label htmlFor="name">Fulde Navn:</label>
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                value={userInfo.name}
+                                onChange={handleChange}
+                                disabled={!isEditable}
+                                required
+                            />
+                            {errors.name && <span className="error">{errors.name}</span>}
                         </div>
                         <div className="row">
                             <label htmlFor="email">Email:</label>
                             <input
-                                type="text"
+                                type="email"
                                 id="email"
                                 name="email"
                                 value={userInfo.email}
                                 onChange={handleChange}
                                 disabled={!isEditable}
+                                required
                             />
+                            {errors.email && <span className="error">{errors.email}</span>}
                         </div>
                         <div className="row">
-                            <label htmlFor="phone">Telefon nr:</label>
+                            <label htmlFor="phoneNumber">Telefon nr:</label>
                             <input
-                                type="text"
-                                id="phone"
-                                name="phone"
-                                value={userInfo.phone}
+                                type="tel"
+                                id="phoneNumber"
+                                name="phoneNumber"
+                                value={userInfo.phoneNumber}
                                 onChange={handleChange}
+                                maxLength="8"
                                 disabled={!isEditable}
+                                required
                             />
-                        </div>
-                        <div className="row">
-                            <label htmlFor="age">Alder:</label>
-                            <input
-                                type="text"
-                                id="age"
-                                name="age"
-                                value={userInfo.age}
-                                onChange={handleChange}
-                                disabled={!isEditable}
-                            />
+                            {errors.phoneNumber && <span className="error">{errors.phoneNumber}</span>}
                         </div>
                         <div className="row">
                             <label htmlFor="address">Adresse:</label>
@@ -123,11 +158,26 @@ function CustomerProfilePage() {
                                 value={userInfo.address}
                                 onChange={handleChange}
                                 disabled={!isEditable}
+                                required
                             />
+                            {errors.address && <span className="error">{errors.address}</span>}
+                        </div>
+                        <div className="row">
+                            <label htmlFor="age">Alder:</label>
+                            <input
+                                type="number"
+                                id="age"
+                                name="age"
+                                value={userInfo.age}
+                                onChange={handleChange}
+                                disabled={!isEditable}
+                                required
+                            />
+                            {errors.age && <span className="error">{errors.age}</span>}
                         </div>
                     </div>
                     <div className="button-group">
-                        <button className="ProfileButton" onClick={handleEdit}>
+                        <button className="ProfileButton" onClick={isEditable ? handleSubmit : handleEdit}>
                             {isEditable ? 'Gem Ændringer' : 'Rediger Profil'}
                         </button>
                         <button className="ProfileButton" onClick={handleReset}>Fortryd</button>

@@ -1,30 +1,29 @@
 import './ProfileMenu.css';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import ProfileIcon from '../assets/Icons/Profile-Icon.png';
 
-function ProfileMenu({ isLoggedIn }) {
-    const [isOpen, setIsOpen] = useState(false);
-
-    const toggleMenu = () => {
-        setIsOpen(!isOpen);
-    };
-
+function ProfileMenu({ isLoggedIn, username, email, handleLogout }) {
     return (
         <div className="profile-menu">
-            <button onClick={toggleMenu} className="profile-menu-button">
-                Profile
-            </button>
-            {isOpen && (
-                <div className="profile-menu-dropdown">
-                    {isLoggedIn ? (
-                        <div>
-                            <p>Welcome, User!</p>
-                            <Link to="/logout" className="button-link">
-                                <button className="profile-menu-button">Logout</button>
-                            </Link>
+            {isLoggedIn ? (
+                <div className="dropdown">
+                    <div className="dropdown-trigger">
+                        <img src={ProfileIcon} alt="Profile Icon" className="profile-icon" />
+                        <div className="user-info">
+                            <div>{username}</div>
+                            <div>{email}</div>
                         </div>
-                    ) : (
-                        <div>
+                    </div>
+                    <div className="dropdown-content">
+                        <div onClick={handleLogout} className="dropdown-item">Log ud</div>
+                    </div>
+                </div>
+            ) : (
+                <div className="profile-menu-dropdown">
+                    <div className="dropdown-trigger">
+                        <button className="profile-menu-button">Login</button>
+                        <div className="dropdown-content">
                             <Link to="/login" className="button-link">
                                 <button className="profile-menu-button">Login</button>
                             </Link>
@@ -32,7 +31,7 @@ function ProfileMenu({ isLoggedIn }) {
                                 <button className="profile-menu-button">Opret bruger</button>
                             </Link>
                         </div>
-                    )}
+                    </div>
                 </div>
             )}
         </div>

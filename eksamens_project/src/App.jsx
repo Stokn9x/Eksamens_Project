@@ -25,7 +25,8 @@ const routesToShowNavbar = [
     "/about",
     "/contact",
     "/Profile",
-    "/CreateProfile",
+    "/createprofile",
+    "/login",
 ];
 
 const shouldShowNavbar = (pathname) => {
