@@ -15,6 +15,7 @@ import AdminEmployeePage from './Pages/Admin-Pages/AdminEmployeePage';
 import AdminMailSystem from './Pages/Admin-Pages/AdminMailSystem';
 import AdminShiftPlan from './Pages/Admin-Pages/AdminShiftPlanPage';
 import AdminNavbar from './Componets/AdminNavbar';
+import CartPage from './Pages/CartPage';
 import './index.css';
 
 const routesToShowNavbar = [
@@ -22,6 +23,7 @@ const routesToShowNavbar = [
     "/menu",
     "/about",
     "/contact",
+    "/cart"
 ];
 
 const shouldShowNavbar = (pathname) => {
@@ -50,6 +52,7 @@ function App() {
                     <Route path="/menu" element={<MenuPage />} />
                     <Route path="/about" element={<AboutPage />} />
                     <Route path="/contact" element={<ContactPage />} />
+                    <Route path="/cart" element={<CartPage />} />
                     <Route path="/admin" element={<ProtectedRoute isAuthenticated={isAuthenticated}><AdminFrontPage /></ProtectedRoute>} />
                     <Route path="/admin/menu" element={<ProtectedRoute isAuthenticated={isAuthenticated}><AdminMenuPage /></ProtectedRoute>} />
                     <Route path="/admin/employees" element={<ProtectedRoute isAuthenticated={isAuthenticated}><AdminEmployeePage /></ProtectedRoute>} />

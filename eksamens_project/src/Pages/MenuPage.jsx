@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import './MenuPage.css';
 import ManishImage from '../assets/FoodItems/Manish.png';
+import { Link } from 'react-router-dom';
 
 function MenuPage() {
     const [menuData, setMenuData] = useState([]);
+    const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -33,6 +35,12 @@ function MenuPage() {
                 setError(error.toString());
             });
     }, []);
+
+    const handleAddToCart = (item) => {
+        const updatedCart = [...cart, item];
+        setCart(updatedCart);
+        localStorage.setItem('cart', JSON.stringify(updatedCart));
+    };
 
     if (error) {
         return <div>Error: {error}</div>;
@@ -65,12 +73,23 @@ function MenuPage() {
                                         <p className="ingredients">Ingredients: {item.ingredients.join(', ')}</p>
                                         <p className="price">{item.price}</p>
                                     </div>
-                                    <button className="add-to-cart">Add to Cart</button>
+                                    <button className="add-to-cart" onClick={() => handleAddToCart(item)}>Add to Cart</button>
                                 </div>
                             ))}
                         </div>
                     </div>
                 ))}
+            </div>
+            <div className="cart">
+                <h2>Cart</h2>
+                <ul>
+                    {cart.map((item, index) => (
+                        <li key={index}>
+                            {item.name} - ${item.price}
+                        </li>
+                    ))}
+                </ul>
+                <Link to="/cart">Go to Cart</Link>
             </div>
         </div>
     );

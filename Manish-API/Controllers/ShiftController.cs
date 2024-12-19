@@ -33,6 +33,7 @@ namespace Manish_API.Controllers
 				return BadRequest("Invalid day value");
 			}
 
+			shift.id = Guid.NewGuid();
 			shifts.Add(shift);
 			return Ok(shift);
 		}
