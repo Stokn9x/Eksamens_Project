@@ -87,9 +87,54 @@ namespace Manish_API.Controllers
 				return NotFound("Employee not found");
 			}
 
-			employee.AddShift(shift);
+			if (shift == null)
+			{
+				return BadRequest("Shift is null");
+			}
+
+			if (!System.Enum.IsDefined(typeof(WorkDays), shift.Day))
+			{
+				return BadRequest("Invalid day value");
+			}
+
+			shift.id = Guid.NewGuid();
+			employee.Shifts.Add(shift);
 			_context.SaveChanges();
 			return Ok("Shift added successfully");
+		}
+
+		[HttpPut]
+		[Route("EditShift")]
+		public IActionResult EditShift(Guid shiftId, [FromBody] Shift updatedShift)
+		{
+			var shift = _context.Shifts.FirstOrDefault(s => s.id == shiftId);
+			if (shift == null)
+			{
+				return NotFound("Shift not found");
+			}
+
+			shift.Day = updatedShift.Day;
+			shift.Date = updatedShift.Date;
+			shift.StartTime = updatedShift.StartTime;
+			shift.EndTime = updatedShift.EndTime;
+
+			_context.SaveChanges();
+			return Ok("Shift updated successfully");
+		}
+
+		[HttpDelete]
+		[Route("DeleteShift/{shiftId}")]
+		public IActionResult DeleteShift(Guid shiftId)
+		{
+			var shift = _context.Shifts.FirstOrDefault(s => s.id == shiftId);
+			if (shift == null)
+			{
+				return NotFound("Shift not found");
+			}
+
+			_context.Shifts.Remove(shift);
+			_context.SaveChanges();
+			return Ok("Shift deleted successfully");
 		}
 	}
 }

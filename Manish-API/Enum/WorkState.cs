@@ -3,6 +3,8 @@
 	public enum WorkState
 	{
 		PartTime,
-		FullTime
+		FullTime,
+		Flex,
+		Intern
 	}
 }

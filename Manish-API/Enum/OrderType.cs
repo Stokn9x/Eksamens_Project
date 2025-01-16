@@ -3,6 +3,7 @@
 	public enum OrderType
 	{
 		EatIn,
-		TakeAway
+		TakeAway,
+		Online
 	}
 }

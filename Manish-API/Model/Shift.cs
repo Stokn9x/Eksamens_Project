@@ -11,6 +11,7 @@ namespace Manish_API.Model
 		[JsonConverter(typeof(JsonStringEnumConverter))]
 		public WorkDays Day { get; set; }
 
+		public DateTime Date { get; set; }
 		public DateTime StartTime { get; set; }
 		public DateTime EndTime { get; set; }
 
@@ -18,10 +19,11 @@ namespace Manish_API.Model
 		{
 		}
 
-		public Shift(WorkDays day, DateTime startTime, DateTime endTime)
+		public Shift(WorkDays day, DateTime date, DateTime startTime, DateTime endTime)
 		{
 			id = Guid.NewGuid();
 			Day = day;
+			Date = date;
 			StartTime = startTime;
 			EndTime = endTime;
 		}

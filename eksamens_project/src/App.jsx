@@ -16,6 +16,7 @@ import AdminEmployeePage from './Pages/Admin-Pages/AdminEmployeePage';
 import AdminMailSystem from './Pages/Admin-Pages/AdminMailSystem';
 import AdminShiftPlan from './Pages/Admin-Pages/AdminShiftPlanPage';
 import AdminNavbar from './Componets/AdminNavbar';
+import CartPage from './Pages/CartPage';
 import CreateProfilePage from './Pages/CreateProfilePage';
 import './index.css';
 
@@ -24,6 +25,7 @@ const routesToShowNavbar = [
     "/menu",
     "/about",
     "/contact",
+    "/cart"
     "/Profile",
     "/createprofile",
     "/login",
@@ -56,6 +58,7 @@ function App() {
                     <Route path="/menu" element={<MenuPage />} />
                     <Route path="/about" element={<AboutPage />} />
                     <Route path="/contact" element={<ContactPage />} />
+                    <Route path="/cart" element={<CartPage />} />
                     <Route path="/Profile" element={<CustomerProfilePage />} />
                     <Route path="/CreateProfile" element={<CreateProfilePage />} />
                     <Route path="/login" element={<LoginPage setIsAuthenticated={setIsAuthenticated} />} />
