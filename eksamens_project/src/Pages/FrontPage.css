@@ -1,2 +1,90 @@
-body {
+.content-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.front-page {
+    text-align: center;
+    padding: 20px;
+}
+
+.carousel-container {
+    overflow: hidden;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    border-radius: 10px;
+}
+
+.carousel {
+    display: flex;
+    animation: scroll 40s linear infinite;
+}
+
+.carousel-image {
+    width: calc(100% / 3 - 10px);
+    flex-shrink: 0;
+    object-fit: cover;
+    border-radius: 10px;
+    margin: 0 5px;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(calc(-20% / 3 * 15));
+    }
+}
+
+.info-text {
+    margin-top: 20px;
+    margin-bottom: 30px; 
+}
+
+.info-text h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    cursor: pointer;
+    color: black;
+}
+
+    .info-text h1:hover {
+        color: #B48050;
+    }
+
+.info-text p {
+    font-size: 1.2rem;
+    color: black;
+    margin: 5px 0;
+}
+
+/* Tilføj denne regel for at sætte linkets standardfarve til sort */
+.info-text a {
+    color: black;
+    text-decoration: none;
+}
+
+    .info-text a:hover {
+        border-bottom: 1px solid #B48050;
+        border-color: #B48050;
+        color: #B48050;
+    }
+
+.content-wrap > :last-child {
+    margin-bottom: 25px;
+}
+
+/* Medieforespørgsel for bærbare computere */
+@media (max-width: 1600px) {
+    .carousel-container {
+        max-width: 800px;
+    }
 }

@@ -2,7 +2,7 @@
 	width: 300px;
 	margin: 100px auto;
 	padding: 20px;
-	border: 1px solid #B48050; /* Border color inspired by Navbar */
+	border: 1px solid #B48050;
 	border-radius: 5px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 	background-color: #f9f9f9;
@@ -11,7 +11,7 @@
 .login-page-title {
 	text-align: center;
 	margin-bottom: 20px;
-	color: #AF0000; /* Text color inspired by Header */
+	color: #AF0000;
 }
 
 .login-page-form-group {
@@ -21,14 +21,14 @@
 .login-page-label {
 	display: block;
 	margin-bottom: 5px;
-	color: #2D3648; /* Label color inspired by Navbar */
+	color: #2D3648;
 }
 
 .login-page-input {
 	width: 100%;
 	padding: 8px;
 	box-sizing: border-box;
-	border: 1px solid #B48050; /* Border color inspired by Navbar */
+	border: 1px solid lightgray;
 	border-radius: 3px;
 }
 
@@ -40,13 +40,14 @@
 .login-page-button {
 	width: 100%;
 	padding: 10px;
-	background-color: #AF0000; /* Button background color inspired by Header */
+	background-color: #AF0000;
 	color: white;
 	border: none;
-	border-radius: 5px;
+	border-radius: 50px;
 	cursor: pointer;
+	border: 1px solid black;
 }
 
 	.login-page-button:hover {
-		background-color: #B48050; /* Button hover color inspired by Navbar */
+		background-color: darkred;
 	}

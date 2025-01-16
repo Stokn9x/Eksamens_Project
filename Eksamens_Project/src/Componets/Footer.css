@@ -1,5 +1,6 @@
 /* Footer.css */
 .Footer {
+    margin-top: auto; /* Pushes the footer to the bottom */
     background-color: #f5f5f5; /* Light background */
     padding-left: 240px;
     padding-right: 240px;
@@ -11,7 +12,6 @@
     border-top: 1px solid #000000; /* Thin black border on top */
     box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1); /* Light shadow on top */
     font-family: Arial, sans-serif; /* Consistent font */
-    margin-top: auto; /* Pushes the footer to the bottom */
 }
 
 .Footer .ContactInfo, .Footer .OpningTimes, .Footer .SocialMedia {
