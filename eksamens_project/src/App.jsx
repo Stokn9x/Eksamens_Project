@@ -25,7 +25,7 @@ const routesToShowNavbar = [
     "/menu",
     "/about",
     "/contact",
-    "/cart"
+    "/cart",
     "/Profile",
     "/createprofile",
     "/login",
