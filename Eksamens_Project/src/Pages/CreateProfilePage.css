@@ -1,0 +1,73 @@
+.row
+{
+    display: flex;
+}
+
+.column {
+    flex: 1;
+    margin-right: 10px;
+}
+
+    .column:last-child {
+        margin-right: 0;
+    }
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.error {
+    color: red;
+    font-size: 0.875em;
+    margin-top: 5px;
+}
+
+.button-group {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.ProfileButton:hover {
+    background-color: #45a049;
+}
+
+.popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+    .popup-content button {
+        margin: 10px 20px;
+        margin-top: 30px;
+        padding: 10px 30px;
+        color: white;
+        border-radius: 50px;
+        cursor: pointer;
+        border: none;
+        width: 150px;
+    }
+
+    .popup-content .AcceptButton {
+        background-color: green;
+    }
+
+    .popup-content .DeclineButton {
+        background-color: #cc0000;
+    }
+
+    .popup-content .AcceptButton:hover {
+        background-color: darkgreen;
+    }
+
+    .popup-content .DeclineButton:hover {
+        background-color: darkred;
+    }
